@@ -23,7 +23,7 @@ function queen_attack_form() {
   $form['queen_file_coord'] = array(
     '#title' => 'Queen File Coord',
     '#type' => 'select',
-    '#options' => array(1, 2, 3, 4, 5, 6, 7, 8),
+    '#options' => array(1 => 'a', 2 => 'b', 3 => 'c', 4 => 'd', 5 => 'e', 6 => 'f', 7 => 'g', 8 => 'h'),
     '#description' => t('Enter the Queen\'s File Coord'),
   );
 
@@ -38,7 +38,7 @@ function queen_attack_form() {
   $form['other_piece_file_coord'] = array(
     '#title' => 'Other Piece\'s File Coord',
     '#type' => 'select',
-    '#options' => array(1, 2, 3, 4, 5, 6, 7, 8),
+    '#options' => array(1 => 'a', 2 => 'b', 3 => 'c', 4 => 'd', 5 => 'e', 6 => 'f', 7 => 'g', 8 => 'h'),
     '#description' => t('Enter the Other Piece\'s File Coord'),
   );
 
@@ -60,10 +60,11 @@ function queen_attack_form() {
 }
 
 function queen_attack_form_submit($form, &$form_state) {
-  $queen_rank = $form_state['values']['queen_rank_coord'];
+
+  $queen_rank = $form_state['values']['queen_rank_coord'] + 1;
   $queen_file = $form_state['values']['queen_file_coord'];
 
-  $piece_rank = $form_state['values']['other_piece_rank_coord'];
+  $piece_rank = $form_state['values']['other_piece_rank_coord'] + 1;
   $piece_file = $form_state['values']['other_piece_file_coord'];
 
   if ($queen_rank === $piece_rank || $queen_file === $piece_file){
@@ -73,13 +74,11 @@ function queen_attack_form_submit($form, &$form_state) {
   } else {
     $_SESSION['queen_attack_output'] = false;
   }
-  // $_SESSION['debug'] = $form_state['values'];
+  $_SESSION['debug'] = $form_state['values'];
   $form_state['redirect'] = 'queen_attack_success_page';
 }
 
 function queen_attack_success() {
-  // var_dump($_SESSION['debug']);
-  // return 'hello';
   if($_SESSION['queen_attack_output']) {
     return "The Queen Attacks!";
   } else {
