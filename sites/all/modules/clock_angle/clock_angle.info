@@ -1,0 +1,5 @@
+name = Clock Angle
+description = Takes a time of day and returns the smallest angle between the hour and minute hands.
+package = Epicodus Examples
+core = 7.x
+files[] = clock_angle.module
