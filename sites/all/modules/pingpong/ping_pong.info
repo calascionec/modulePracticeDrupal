@@ -1,0 +1,5 @@
+name = Ping Pong
+description = Displays ping for numbers divisible by 3, pong for numbers divisible by 5, and ping pong for numbers divisible by both.
+package = Epicodus Examples
+core = 7.x
+files[] = ping_pong.module

@@ -1,0 +1,5 @@
+name = Queen Attack
+description = will take the positions of two chess pieces, the queen and another piece, and tell the user if the queen can attack that piece.
+package = Epicodus Examples
+core = 7.x
+files[] = queen_attack.module

@@ -1,0 +1,88 @@
+<?php
+
+function queen_attack_menu() {
+  $items['queen_attack'] = array(
+    'title' => 'Can my queen attack?!',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('queen_attack_form'),
+    'access callback' => TRUE,
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  $items['queen_attack_success_page'] = array(
+    'title' => 'Success',
+    'page callback' => 'queen_attack_success',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+function queen_attack_form() {
+  $form['queen_file_coord'] = array(
+    '#title' => 'Queen File Coord',
+    '#type' => 'select',
+    '#options' => array(1, 2, 3, 4, 5, 6, 7, 8),
+    '#description' => t('Enter the Queen\'s File Coord'),
+  );
+
+  $form['queen_rank_coord'] = array(
+    '#title' => 'Queen\'s Rank Coord',
+    '#type' => 'select',
+    '#options' => array(1, 2, 3, 4, 5, 6, 7, 8),
+    '#description' => t('Enter the Queen\'s Rank Coord'),
+  );
+
+
+  $form['other_piece_file_coord'] = array(
+    '#title' => 'Other Piece\'s File Coord',
+    '#type' => 'select',
+    '#options' => array(1, 2, 3, 4, 5, 6, 7, 8),
+    '#description' => t('Enter the Other Piece\'s File Coord'),
+  );
+
+  $form['other_piece_rank_coord'] = array(
+    '#title' => 'Other Piece\'s Rank Coord',
+    '#type' => 'select',
+    '#options' => array(1, 2, 3, 4, 5, 6, 7, 8),
+    '#description' => t('Enter the Other Piece\'s Rank Coord'),
+  );
+
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => 'Check',
+  );
+
+  return $form;
+
+}
+
+function queen_attack_form_submit($form, &$form_state) {
+  $queen_rank = $form_state['values']['queen_rank_coord'];
+  $queen_file = $form_state['values']['queen_file_coord'];
+
+  $piece_rank = $form_state['values']['other_piece_rank_coord'];
+  $piece_file = $form_state['values']['other_piece_file_coord'];
+
+  if ($queen_rank === $piece_rank || $queen_file === $piece_file){
+    $_SESSION['queen_attack_output'] = true;
+  } elseif (abs($piece_rank - $queen_rank) === abs($piece_file - $queen_file)) {
+    $_SESSION['queen_attack_output'] = true;
+  } else {
+    $_SESSION['queen_attack_output'] = false;
+  }
+  // $_SESSION['debug'] = $form_state['values'];
+  $form_state['redirect'] = 'queen_attack_success_page';
+}
+
+function queen_attack_success() {
+  // var_dump($_SESSION['debug']);
+  // return 'hello';
+  if($_SESSION['queen_attack_output']) {
+    return "The Queen Attacks!";
+  } else {
+    return "The Queen is not in a position to attack!";
+  }
+}
